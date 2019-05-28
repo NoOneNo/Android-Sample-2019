@@ -5,6 +5,20 @@
     android:layout_height="match_parent">
 
 
+    <Button
+        android:id="@+id/ws"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+
+        android:text="ws page"
+        app:layout_constraintBottom_toTopOf="@+id/todo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintVertical_bias="0.183" />
+
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         Of="parent"
@@ -24,7 +38,7 @@
         app:layout_constraintBottom_toTopOf="@+id/jandan"
 
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 

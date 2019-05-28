@@ -37,5 +37,12 @@ public class MainFragment extends Fragment {
                 NavHostFragment.findNavController(MainFragment.this).navigate(R.id.action_mainFragment_to_jandanFragment);
             }
         });
+
+        view.findViewById(R.id.ws).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavHostFragment.findNavController(MainFragment.this).navigate(R.id.action_mainFragment_to_WSFragment);
+            }
+        });
     }
 }

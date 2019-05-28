@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_mainFragment_to_jandanFragment"
             app:destination="@id/jandanFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_WSFragment"
+            app:destination="@id/WSFragment" />
     </fragment>
     <fragment
         android:id="@+id/jandanFragment"
@@ -40,4 +43,9 @@
         android:name="com.example.jandan.PicFragment"
         android:label="frag_pic"
         tools:layout="@layout/frag_pic" />
+    <fragment
+        android:id="@+id/WSFragment"
+        android:name="com.example.ws.WSFragment"
+        android:label="frag_ws"
+        tools:layout="@layout/frag_ws" />
 </navigation>

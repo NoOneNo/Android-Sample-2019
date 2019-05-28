@@ -24,7 +24,7 @@ public class WSFragment extends Fragment implements SeekBar.OnSeekBarChangeListe
         if (!wsThread.isAlive()) {
             wsThread.start();
         }
-        wsThread.startServer();
+        wsThread.startServer(getContext());
 
         return inflater.inflate(R.layout.frag_ws, container, false);
     }

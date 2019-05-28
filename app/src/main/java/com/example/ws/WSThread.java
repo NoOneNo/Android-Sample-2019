@@ -1,12 +1,17 @@
 package com.example.ws;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.text.format.Formatter;
 
 import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
+
+import static android.content.Context.WIFI_SERVICE;
 
 public class WSThread extends HandlerThread {
 
@@ -23,14 +28,19 @@ public class WSThread extends HandlerThread {
         handler = new Handler(getLooper());
     }
 
-    public void startServer() {
+    public void startServer(final Context context) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                server = new WSServer(new InetSocketAddress("10.232.60.8", 8887));
+                server = new WSServer(new InetSocketAddress(getIP(context), 8887));
                 server.start();
             }
         });
+    }
+
+    private String getIP(Context context) {
+        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
+        return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
     }
 
     public void stopServer() {

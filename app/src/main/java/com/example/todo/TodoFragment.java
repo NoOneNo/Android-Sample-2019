@@ -1,5 +1,6 @@
 package com.example.todo;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,9 +24,24 @@ public class TodoFragment extends Fragment {
 
     List<Task> mTasks = null;
 
+    static final String HTML_PATH = "game/runtime.html";
+    static final String FILE_SCHEMA = "file://";
+    static final String ASSET_URI = FILE_SCHEMA + "/android_asset";
+    static final String GAME_ASSET_URI = ASSET_URI + "/game";
+    static final String GAME_OPERATION_DOMAIN_URI = "https://api.op.hybrid.xiaomi.com/";
+    static final String GAME_OPERATION_JS = "game/JsSdk.js";
+    static final String GAME_OPERATION_URI = GAME_OPERATION_DOMAIN_URI + GAME_OPERATION_JS;
+    static final String GAME_URL = ASSET_URI + "/" + HTML_PATH;
+    static final String GAME_URL_QUERY_RELOAD = "recreate-webview";
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        String url = GAME_URL + "?recreate-webview=true";
+        String needReload = Uri.parse(url).getQueryParameter(GAME_URL_QUERY_RELOAD);
+        System.out.println(needReload);
+
         return inflater.inflate(R.layout.frag_recycler_view, container, false);
     }
 

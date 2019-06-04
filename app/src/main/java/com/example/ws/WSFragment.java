@@ -2,61 +2,63 @@ package com.example.ws;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SeekBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatSeekBar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.R;
+import com.example.ws.event.TouchEvent;
 
-public class WSFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class WSFragment extends Fragment implements View.OnTouchListener {
 
-    private static WSThread wsThread = new WSThread("WSThread");
+    private static WSControllerWrapper wsControllerWrapper = new WSControllerWrapper("WSControllerWrapper");
+
+    private View btn;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if (!wsThread.isAlive()) {
-            wsThread.start();
+        if (!wsControllerWrapper.isAlive()) {
+            wsControllerWrapper.start();
         }
-        wsThread.startServer(getContext());
+        wsControllerWrapper.startServer(getContext());
 
-        return inflater.inflate(R.layout.frag_ws, container, false);
+        View view = inflater.inflate(R.layout.frag_ws, container, false);
+        view.setOnTouchListener(this);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        AppCompatSeekBar seekBar = view.findViewById(R.id.seek_bar);
-        seekBar.setOnSeekBarChangeListener(this);
+        btn = view.findViewById(R.id.float_button);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
 
-        wsThread.stopServer();
-    }
-
-
-    @Override
-    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-        wsThread.broadcast("{\"progress\":" + progress +"}");
+        wsControllerWrapper.stopServer();
     }
 
     @Override
-    public void onStartTrackingTouch(SeekBar seekBar) {
+    public boolean onTouch(View v, MotionEvent event) {
+        float horizontalBias = event.getX() / v.getWidth();
+        float verticalBias = event.getY() / v.getHeight();
 
-    }
+        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) btn.getLayoutParams();
+        layoutParams.horizontalBias = horizontalBias;
+        layoutParams.verticalBias = verticalBias;
+        btn.setLayoutParams(layoutParams);
 
-    @Override
-    public void onStopTrackingTouch(SeekBar seekBar) {
+        wsControllerWrapper.touch(new TouchEvent(event.getAction(), horizontalBias, verticalBias));
 
+        return true;
     }
 }

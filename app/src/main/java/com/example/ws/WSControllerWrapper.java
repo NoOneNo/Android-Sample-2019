@@ -1,24 +1,21 @@
 package com.example.ws;
 
 import android.content.Context;
-import android.net.wifi.WifiManager;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.text.format.Formatter;
-
+import com.example.utils.NetworkUtils;
+import com.example.ws.event.TouchEvent;
 import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-import static android.content.Context.WIFI_SERVICE;
-
-public class WSThread extends HandlerThread {
+public class WSControllerWrapper extends HandlerThread implements WSController{
 
     private Handler handler;
     private WebSocketServer server;
 
-    public WSThread(String name) {
+    WSControllerWrapper(String name) {
         super(name);
     }
 
@@ -28,22 +25,21 @@ public class WSThread extends HandlerThread {
         handler = new Handler(getLooper());
     }
 
-    public void startServer(final Context context) {
+    void startServer(final Context context) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                server = new WSServer(new InetSocketAddress(getIP(context), 8887));
+                server = new WSServerImpl(new InetSocketAddress(getIP(context), 8887));
                 server.start();
             }
         });
     }
 
     private String getIP(Context context) {
-        WifiManager wm = (WifiManager) context.getApplicationContext().getSystemService(WIFI_SERVICE);
-        return Formatter.formatIpAddress(wm.getConnectionInfo().getIpAddress());
+        return NetworkUtils.getIP(context);
     }
 
-    public void stopServer() {
+    void stopServer() {
 
         handler.post(new Runnable() {
             @Override
@@ -62,16 +58,24 @@ public class WSThread extends HandlerThread {
                 }
             }
         });
-
-
     }
 
-    public void broadcast(final String text) {
+    private void broadcast(final String text) {
         handler.post(new Runnable() {
             @Override
             public void run() {
                 server.broadcast(text);
             }
         });
+    }
+
+    @Override
+    public void touch(TouchEvent event) {
+        broadcast(event.toString());
+    }
+
+    @Override
+    public void stick(int index, int percent) {
+
     }
 }

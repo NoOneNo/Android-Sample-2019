@@ -25,10 +25,6 @@ public class WSServerImpl extends WebSocketServer {
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         Log.i(TAG, "new connection to " + conn.getRemoteSocketAddress());
-
-        conn.send("Welcome to the server!"); //This method sends a message to the new client
-
-        broadcast( "new connection: " + handshake.getResourceDescriptor() ); //This method sends a message to all clients connected
     }
 
     @Override
@@ -50,6 +46,4 @@ public class WSServerImpl extends WebSocketServer {
     public void onError(WebSocket conn, Exception ex) {
         Log.i(TAG, "an error occured on connection " + conn.getRemoteSocketAddress()  + ":" + ex);
     }
-
-
 }

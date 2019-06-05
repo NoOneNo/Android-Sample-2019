@@ -4,7 +4,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class EventParser {
-    Event parseEvent(String plain) {
+    public static Event parseEvent(String plain) {
         JsonObject jsonObject = new JsonParser().parse(plain).getAsJsonObject();
         String name = jsonObject.get("name").getAsString();
 

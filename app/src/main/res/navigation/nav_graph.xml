@@ -26,6 +26,7 @@
         <action
             android:id="@+id/action_mainFragment_to_WSFragment"
             app:destination="@id/WSFragment" />
+        <action android:id="@+id/action_mainFragment_to_WSReceiveFragment" app:destination="@id/WSReceiveFragment"/>
     </fragment>
     <fragment
         android:id="@+id/jandanFragment"
@@ -45,7 +46,9 @@
         tools:layout="@layout/frag_pic" />
     <fragment
         android:id="@+id/WSFragment"
-        android:name="com.example.ws.WSFragment"
+        android:name="com.example.ws.WSControlFragment"
         android:label="frag_ws"
         tools:layout="@layout/frag_ws" />
+    <fragment android:id="@+id/WSReceiveFragment" android:name="com.example.ws.WSReceiveFragment"
+              android:label="frag_ws" tools:layout="@layout/frag_ws"/>
 </navigation>

@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,11 +15,12 @@ import androidx.fragment.app.Fragment;
 import com.example.R;
 import com.example.ws.event.TouchEvent;
 
-public class WSFragment extends Fragment implements View.OnTouchListener {
+public class WSControlFragment extends Fragment implements View.OnTouchListener {
 
-    private static WSControllerWrapper wsControllerWrapper = new WSControllerWrapper("WSControllerWrapper");
+    private WSControllerWrapper wsControllerWrapper = new WSControllerWrapper("WSControllerWrapper", this);
 
     private View btn;
+    private TextView logTV;
 
     @Nullable
     @Override
@@ -38,6 +40,10 @@ public class WSFragment extends Fragment implements View.OnTouchListener {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         btn = view.findViewById(R.id.float_button);
+        logTV = view.findViewById(R.id.log_tv);
+
+        log("ip:" + wsControllerWrapper.getIP(getContext()));
+        log("port:" + wsControllerWrapper.getPort());
     }
 
     @Override
@@ -52,6 +58,10 @@ public class WSFragment extends Fragment implements View.OnTouchListener {
         float horizontalBias = event.getX() / v.getWidth();
         float verticalBias = event.getY() / v.getHeight();
 
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            horizontalBias = 0.5f;
+            verticalBias = 0.5f;
+        }
         ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) btn.getLayoutParams();
         layoutParams.horizontalBias = horizontalBias;
         layoutParams.verticalBias = verticalBias;
@@ -60,5 +70,9 @@ public class WSFragment extends Fragment implements View.OnTouchListener {
         wsControllerWrapper.touch(new TouchEvent(event.getAction(), horizontalBias, verticalBias));
 
         return true;
+    }
+
+    void log(String text) {
+        logTV.append("\n" + text);
     }
 }

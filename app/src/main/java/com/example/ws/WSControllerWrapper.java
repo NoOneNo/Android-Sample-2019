@@ -5,18 +5,25 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import com.example.utils.NetworkUtils;
 import com.example.ws.event.TouchEvent;
+import org.java_websocket.WebSocket;
+import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class WSControllerWrapper extends HandlerThread implements WSController{
+public class WSControllerWrapper extends HandlerThread implements WSController {
 
     private Handler handler;
     private WebSocketServer server;
 
-    WSControllerWrapper(String name) {
+    private int port = 8887;
+
+    private WSControlFragment fragment;
+
+    WSControllerWrapper(String name, WSControlFragment fragment) {
         super(name);
+        this.fragment = fragment;
     }
 
     @Override
@@ -29,14 +36,25 @@ public class WSControllerWrapper extends HandlerThread implements WSController{
         handler.post(new Runnable() {
             @Override
             public void run() {
-                server = new WSServerImpl(new InetSocketAddress(getIP(context), 8887));
+                server = new WSServerImpl(new InetSocketAddress(getIP(context), port)) {
+                    @Override
+                    public void onOpen(WebSocket conn, ClientHandshake handshake) {
+                        super.onOpen(conn, handshake);
+                        log("new connection to " + conn.getRemoteSocketAddress());
+                        log("new connection: " + handshake.getResourceDescriptor());
+                    }
+                };
                 server.start();
             }
         });
     }
 
-    private String getIP(Context context) {
+    String getIP(Context context) {
         return NetworkUtils.getIP(context);
+    }
+
+    int getPort() {
+        return port;
     }
 
     void stopServer() {
@@ -77,5 +95,9 @@ public class WSControllerWrapper extends HandlerThread implements WSController{
     @Override
     public void stick(int index, int percent) {
 
+    }
+
+    void log(String text) {
+        fragment.log(text);
     }
 }

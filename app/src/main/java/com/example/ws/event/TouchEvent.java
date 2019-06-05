@@ -4,9 +4,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class TouchEvent implements Event {
-    final int action;
-    final float x;
-    final float y;
+    public final int action;
+    public final float x;
+    public final float y;
 
     public TouchEvent(int action, float x, float y) {
         this.action = action;

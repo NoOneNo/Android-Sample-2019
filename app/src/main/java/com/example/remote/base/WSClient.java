@@ -1,7 +1,6 @@
-package com.example.ws;
+package com.example.remote.base;
 
 import org.java_websocket.client.WebSocketClient;
-import org.java_websocket.drafts.Draft;
 import org.java_websocket.handshake.ServerHandshake;
 
 import java.net.URI;
@@ -15,7 +14,6 @@ public class WSClient extends WebSocketClient {
 
     @Override
     public void onOpen(ServerHandshake handshake) {
-        send("Hello, it is me. Mario :)");
         System.out.println("new connection opened");
     }
 

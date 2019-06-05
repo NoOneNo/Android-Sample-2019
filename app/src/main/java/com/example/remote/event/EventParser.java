@@ -1,4 +1,4 @@
-package com.example.ws.event;
+package com.example.remote.event;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;

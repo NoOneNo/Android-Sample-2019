@@ -1,4 +1,4 @@
-package com.example.ws;
+package com.example.remote.view;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,11 +13,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.R;
-import com.example.ws.event.TouchEvent;
+import com.example.remote.ControllerWrapper;
+import com.example.remote.event.TouchEvent;
 
 public class WSControlFragment extends Fragment implements View.OnTouchListener {
 
-    private WSControllerWrapper wsControllerWrapper = new WSControllerWrapper("WSControllerWrapper", this);
+    private ControllerWrapper wsControllerWrapper = new ControllerWrapper("ControllerWrapper", this);
 
     private View btn;
     private TextView logTV;
@@ -72,7 +73,7 @@ public class WSControlFragment extends Fragment implements View.OnTouchListener 
         return true;
     }
 
-    void log(String text) {
+    public void log(String text) {
         logTV.append("\n" + text);
     }
 }

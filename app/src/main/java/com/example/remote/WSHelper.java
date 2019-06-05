@@ -1,11 +1,11 @@
-package com.example.ws;
+package com.example.remote;
 
 import org.java_websocket.client.WebSocketClient;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
-public class WSControllerSearch {
+public class WSHelper {
 
     public static boolean peerController(String ip, int port, WSReciver receiver) {
         WebSocketClient client = null;
@@ -19,6 +19,4 @@ public class WSControllerSearch {
 
         return false;
     }
-
-
 }

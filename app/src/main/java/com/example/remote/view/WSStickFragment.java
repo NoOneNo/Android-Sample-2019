@@ -1,11 +1,12 @@
-package com.example.ws;
+package com.example.remote.view;
 
 import android.widget.SeekBar;
 
 public class WSStickFragment implements SeekBar.OnSeekBarChangeListener {
+
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-//        wsThread.broadcast("{\"progress\":" + progress +"}");
+
     }
 
     @Override

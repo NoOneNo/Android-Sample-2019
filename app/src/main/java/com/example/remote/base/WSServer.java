@@ -1,4 +1,4 @@
-package com.example.ws;
+package com.example.remote.base;
 
 import android.util.Log;
 
@@ -10,10 +10,10 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 
 // https://github.com/TooTallNate/Java-WebSocket/wiki#server-example
-public class WSServerImpl extends WebSocketServer {
+public class WSServer extends WebSocketServer {
     private String TAG = getClass().getSimpleName();
 
-    public WSServerImpl(InetSocketAddress address) {
+    public WSServer(InetSocketAddress address) {
         super(address);
     }
 

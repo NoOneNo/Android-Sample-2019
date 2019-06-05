@@ -1,10 +1,12 @@
-package com.example.ws;
+package com.example.remote;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
 import com.example.utils.NetworkUtils;
-import com.example.ws.event.TouchEvent;
+import com.example.remote.base.WSServer;
+import com.example.remote.event.TouchEvent;
+import com.example.remote.view.WSControlFragment;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -12,7 +14,7 @@ import org.java_websocket.server.WebSocketServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class WSControllerWrapper extends HandlerThread implements WSController {
+public class ControllerWrapper extends HandlerThread implements Controller {
 
     private Handler handler;
     private WebSocketServer server;
@@ -21,7 +23,7 @@ public class WSControllerWrapper extends HandlerThread implements WSController {
 
     private WSControlFragment fragment;
 
-    WSControllerWrapper(String name, WSControlFragment fragment) {
+    public ControllerWrapper(String name, WSControlFragment fragment) {
         super(name);
         this.fragment = fragment;
     }
@@ -32,11 +34,11 @@ public class WSControllerWrapper extends HandlerThread implements WSController {
         handler = new Handler(getLooper());
     }
 
-    void startServer(final Context context) {
+    public void startServer(final Context context) {
         handler.post(new Runnable() {
             @Override
             public void run() {
-                server = new WSServerImpl(new InetSocketAddress(getIP(context), port)) {
+                server = new WSServer(new InetSocketAddress(getIP(context), port)) {
                     @Override
                     public void onOpen(WebSocket conn, ClientHandshake handshake) {
                         super.onOpen(conn, handshake);
@@ -49,15 +51,15 @@ public class WSControllerWrapper extends HandlerThread implements WSController {
         });
     }
 
-    String getIP(Context context) {
+    public String getIP(Context context) {
         return NetworkUtils.getIP(context);
     }
 
-    int getPort() {
+    public int getPort() {
         return port;
     }
 
-    void stopServer() {
+    public void stopServer() {
 
         handler.post(new Runnable() {
             @Override

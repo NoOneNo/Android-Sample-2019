@@ -1,4 +1,4 @@
-package com.example.ws;
+package com.example.remote.view;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -16,7 +16,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import com.example.R;
 import com.example.utils.NetworkUtils;
-import com.example.ws.event.TouchEvent;
+import com.example.remote.WSHelper;
+import com.example.remote.WSReciver;
+import com.example.remote.event.TouchEvent;
 
 public class WSReceiveFragment extends Fragment implements WSReciver, View.OnTouchListener {
     private View btn;
@@ -50,7 +52,7 @@ public class WSReceiveFragment extends Fragment implements WSReciver, View.OnTou
                 String ipConfig = ip.getText().toString();
                 String portConfig = port.getText().toString();
 
-                boolean result = WSControllerSearch.peerController(ipConfig, Integer.valueOf(portConfig), WSReceiveFragment.this);
+                boolean result = WSHelper.peerController(ipConfig, Integer.valueOf(portConfig), WSReceiveFragment.this);
                 if (result) {
                     log("connect success");
                     dialog.dismiss();

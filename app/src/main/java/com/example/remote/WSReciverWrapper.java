@@ -1,8 +1,9 @@
-package com.example.ws;
+package com.example.remote;
 
-import com.example.ws.event.Event;
-import com.example.ws.event.EventParser;
-import com.example.ws.event.TouchEvent;
+import com.example.remote.base.WSClient;
+import com.example.remote.event.Event;
+import com.example.remote.event.EventParser;
+import com.example.remote.event.TouchEvent;
 
 import java.net.URI;
 

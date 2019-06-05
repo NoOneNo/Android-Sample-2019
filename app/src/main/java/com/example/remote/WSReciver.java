@@ -1,6 +1,6 @@
-package com.example.ws;
+package com.example.remote;
 
-import com.example.ws.event.TouchEvent;
+import com.example.remote.event.TouchEvent;
 
 public interface WSReciver {
     void onTouch(TouchEvent event);

@@ -1,4 +1,4 @@
-package com.example.remote.base;
+package com.example.remote.ws;
 
 import android.util.Log;
 

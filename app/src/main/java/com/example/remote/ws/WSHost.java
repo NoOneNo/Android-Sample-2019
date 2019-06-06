@@ -1,12 +1,12 @@
-package com.example.remote;
+package com.example.remote.ws;
 
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
-import com.example.utils.NetworkUtils;
-import com.example.remote.base.WSServer;
+import com.example.remote.Console;
+import com.example.remote.Host;
 import com.example.remote.event.TouchEvent;
-import com.example.remote.view.WSControlFragment;
+import com.example.utils.NetworkUtils;
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -14,27 +14,24 @@ import org.java_websocket.server.WebSocketServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class ControllerWrapper extends HandlerThread implements Controller {
+public class WSHost extends HandlerThread implements Host {
 
     private Handler handler;
     private WebSocketServer server;
 
     private int port = 8887;
 
-    private WSControlFragment fragment;
+    private Console console;
 
-    public ControllerWrapper(String name, WSControlFragment fragment) {
+    public WSHost(String name, Console console) {
         super(name);
-        this.fragment = fragment;
+        this.console = console;
     }
 
     @Override
-    public synchronized void start() {
-        super.start();
+    public void start(final Context context) {
+        start();
         handler = new Handler(getLooper());
-    }
-
-    public void startServer(final Context context) {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -47,20 +44,22 @@ public class ControllerWrapper extends HandlerThread implements Controller {
                     }
                 };
                 server.start();
+
+                log("ip:" + getIP(context));
+                log("port:" + getPort());
             }
         });
     }
 
-    public String getIP(Context context) {
+    private String getIP(Context context) {
         return NetworkUtils.getIP(context);
     }
 
-    public int getPort() {
+    private int getPort() {
         return port;
     }
 
-    public void stopServer() {
-
+    public void close() {
         handler.post(new Runnable() {
             @Override
             public void run() {
@@ -94,12 +93,7 @@ public class ControllerWrapper extends HandlerThread implements Controller {
         broadcast(event.toString());
     }
 
-    @Override
-    public void stick(int index, int percent) {
-
-    }
-
-    void log(String text) {
-        fragment.log(text);
+    private void log(String text) {
+        console.log(text);
     }
 }

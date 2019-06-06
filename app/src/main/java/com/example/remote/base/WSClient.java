@@ -8,7 +8,7 @@ import java.nio.ByteBuffer;
 
 public class WSClient extends WebSocketClient {
 
-    WSClient(URI serverURI) {
+    public WSClient(URI serverURI) {
         super(serverURI);
     }
 

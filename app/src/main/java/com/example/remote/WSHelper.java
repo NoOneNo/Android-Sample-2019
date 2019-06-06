@@ -7,10 +7,10 @@ import java.net.URISyntaxException;
 
 public class WSHelper {
 
-    public static boolean peerController(String ip, int port, WSReciver receiver) {
+    public static boolean peerController(String ip, int port, WSReceiver receiver) {
         WebSocketClient client = null;
         try {
-            client = new WSReciverWrapper(new URI("ws://" + ip + ":" + port), receiver);
+            client = new WSReceiverWrapper(new URI("ws://" + ip + ":" + port), receiver);
             client.connect();
             return true;
         } catch (URISyntaxException e) {

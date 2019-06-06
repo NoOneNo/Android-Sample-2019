@@ -17,10 +17,10 @@ import androidx.fragment.app.Fragment;
 import com.example.R;
 import com.example.utils.NetworkUtils;
 import com.example.remote.WSHelper;
-import com.example.remote.WSReciver;
+import com.example.remote.WSReceiver;
 import com.example.remote.event.TouchEvent;
 
-public class WSReceiveFragment extends Fragment implements WSReciver, View.OnTouchListener {
+public class WSReceiveFragment extends Fragment implements WSReceiver, View.OnTouchListener {
     private View btn;
     private TextView logTV;
 

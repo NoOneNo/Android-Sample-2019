@@ -7,12 +7,12 @@ import com.example.remote.event.TouchEvent;
 
 import java.net.URI;
 
-public class WSReciverWrapper extends WSClient {
-    private WSReciver wsReciver;
+public class WSReceiverWrapper extends WSClient {
+    private WSReceiver wsReceiver;
 
-    WSReciverWrapper(URI serverURI, WSReciver wsReciver) {
+    WSReceiverWrapper(URI serverURI, WSReceiver wsReceiver) {
         super(serverURI);
-        this.wsReciver = wsReciver;
+        this.wsReceiver = wsReceiver;
     }
 
     @Override
@@ -21,7 +21,7 @@ public class WSReciverWrapper extends WSClient {
 
         Event event = EventParser.parseEvent(message);
         if (event instanceof TouchEvent) {
-            wsReciver.onTouch((TouchEvent) event);
+            wsReceiver.onTouch((TouchEvent) event);
         }
     }
 }

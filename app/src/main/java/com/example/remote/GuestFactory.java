@@ -2,17 +2,28 @@ package com.example.remote;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
 import com.example.R;
-import com.example.remote.ws.WSGuest;
+import com.example.remote.bluetooth.BTGuest;
+import com.example.remote.websocket.WSGuest;
 import com.example.utils.NetworkUtils;
 
 import java.net.URI;
 import java.net.URISyntaxException;
 
 public class GuestFactory {
+
+    @SuppressLint("SetTextI18n")
+    public static void peerHost2(Context context, final GuestAdapter adapter, final Console console) {
+        BTGuest guest = new BTGuest(context, console);
+        guest.setAdapter(adapter);
+        BluetoothDevice device = BluetoothAdapter.getDefaultAdapter().getRemoteDevice("E0:DC:FF:CA:43:EC");
+        guest.connect(device);
+    }
 
     @SuppressLint("SetTextI18n")
     public static void peerHost(Context context, final GuestAdapter guest, final Console console) {

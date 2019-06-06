@@ -18,12 +18,14 @@ import com.example.remote.event.TouchEvent;
 
 public class TouchHostFragment extends TouchFragment {
 
-    private Host wsControllerWrapper = HostFactory.createHost(this);
+    private Host wsControllerWrapper;
 
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        wsControllerWrapper = HostFactory.createHost2(getContext(), this);
         wsControllerWrapper.start(getContext());
     }
 

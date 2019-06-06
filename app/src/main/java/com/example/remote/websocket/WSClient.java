@@ -1,4 +1,4 @@
-package com.example.remote.ws;
+package com.example.remote.websocket;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;

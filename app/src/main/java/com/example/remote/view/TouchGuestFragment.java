@@ -27,7 +27,8 @@ public class TouchGuestFragment extends TouchFragment implements GuestAdapter {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        GuestFactory.peerHost(getContext(), this, this);
+//        GuestFactory.peerHost(getContext(), this, this);
+        GuestFactory.peerHost2(getContext(), this, this);
     }
 
 

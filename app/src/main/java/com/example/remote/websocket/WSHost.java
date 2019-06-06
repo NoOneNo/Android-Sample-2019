@@ -1,4 +1,4 @@
-package com.example.remote.ws;
+package com.example.remote.websocket;
 
 import android.content.Context;
 import android.os.Handler;

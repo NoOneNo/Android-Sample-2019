@@ -2,6 +2,7 @@ package com.example.remote.event;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 public class EventParser {
     public static Event parseEvent(String plain) {

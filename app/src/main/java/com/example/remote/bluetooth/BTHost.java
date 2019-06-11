@@ -1,17 +1,11 @@
 package com.example.remote.bluetooth;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.os.Message;
-import android.widget.Toast;
-import androidx.fragment.app.FragmentActivity;
-import com.example.R;
+
 import com.example.remote.Console;
 import com.example.remote.Host;
-import com.example.remote.event.Event;
-import com.example.remote.event.EventParser;
 import com.example.remote.event.TouchEvent;
 
 public class BTHost implements Host {
@@ -21,25 +15,24 @@ public class BTHost implements Host {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case Constants.MESSAGE_STATE_CHANGE:
-//                    switch (msg.arg1) {
-//                        case BluetoothChatService.STATE_CONNECTED:
-//                            setStatus(getString(R.string.title_connected_to, mConnectedDeviceName));
-//                            mConversationArrayAdapter.clear();
-//                            break;
-//                        case BluetoothChatService.STATE_CONNECTING:
-//                            setStatus(R.string.title_connecting);
-//                            break;
-//                        case BluetoothChatService.STATE_LISTEN:
-//                        case BluetoothChatService.STATE_NONE:
-//                            setStatus(R.string.title_not_connected);
-//                            break;
-//                    }
+                    switch (msg.arg1) {
+                        case BluetoothChatService.STATE_CONNECTED:
+                            log("" + "STATE_CONNECTED");
+                            break;
+                        case BluetoothChatService.STATE_CONNECTING:
+                            log("" + "STATE_CONNECTING");
+                            break;
+                        case BluetoothChatService.STATE_LISTEN:
+                        case BluetoothChatService.STATE_NONE:
+                            log("" + "NOT CONNECTED");
+                            break;
+                    }
                     break;
                 case Constants.MESSAGE_WRITE:
-//                    byte[] writeBuf = (byte[]) msg.obj;
-//                    // construct a string from the buffer
-//                    String writeMessage = new String(writeBuf);
-//                    mConversationArrayAdapter.add("Me:  " + writeMessage);
+                    byte[] writeBuf = (byte[]) msg.obj;
+                    // construct a string from the buffer
+                    String writeMessage = new String(writeBuf);
+                    log("" + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
 
@@ -54,8 +47,8 @@ public class BTHost implements Host {
         }
     };
 
-    BluetoothChatService service;
-    Console console;
+    private BluetoothChatService service;
+    private Console console;
 
     public BTHost(Context context, Console console) {
         service = new BluetoothChatService(context, new MyHandler());

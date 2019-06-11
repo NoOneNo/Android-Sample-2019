@@ -14,28 +14,26 @@ import org.java_websocket.server.WebSocketServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class WSHost extends HandlerThread implements Host {
+public class WSHost implements Host {
 
-    private Handler handler;
-    private WebSocketServer server;
-
+    private Handler mHandler;
+    private WebSocketServer mServer;
     private int port = 8887;
+    private Console mConsole;
 
-    private Console console;
-
-    public WSHost(String name, Console console) {
-        super(name);
-        this.console = console;
+    public WSHost(Console console) {
+        mConsole = console;
+        HandlerThread thread = new HandlerThread("WSHost");
+        thread.start();
+        mHandler = new Handler(thread.getLooper());
     }
 
     @Override
     public void start(final Context context) {
-        start();
-        handler = new Handler(getLooper());
-        handler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
-                server = new WSServer(new InetSocketAddress(getIP(context), port)) {
+                mServer = new WSServer(new InetSocketAddress(getIP(context), getPort())) {
                     @Override
                     public void onOpen(WebSocket conn, ClientHandshake handshake) {
                         super.onOpen(conn, handshake);
@@ -43,7 +41,7 @@ public class WSHost extends HandlerThread implements Host {
                         log("new connection: " + handshake.getResourceDescriptor());
                     }
                 };
-                server.start();
+                mServer.start();
 
                 log("ip:" + getIP(context));
                 log("port:" + getPort());
@@ -60,16 +58,16 @@ public class WSHost extends HandlerThread implements Host {
     }
 
     public void close() {
-        handler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
-                if (server == null) {
+                if (mServer == null) {
                     return;
                 }
 
                 try {
-                    server.stop();
-                    server = null;
+                    mServer.stop();
+                    mServer = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (InterruptedException e) {
@@ -80,10 +78,10 @@ public class WSHost extends HandlerThread implements Host {
     }
 
     private void broadcast(final String text) {
-        handler.post(new Runnable() {
+        mHandler.post(new Runnable() {
             @Override
             public void run() {
-                server.broadcast(text);
+                mServer.broadcast(text);
             }
         });
     }
@@ -94,6 +92,6 @@ public class WSHost extends HandlerThread implements Host {
     }
 
     private void log(String text) {
-        console.log(text);
+        mConsole.log(text);
     }
 }

@@ -1,4 +1,4 @@
-package com.example.remote.view;
+package com.example.remote.view.touch;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

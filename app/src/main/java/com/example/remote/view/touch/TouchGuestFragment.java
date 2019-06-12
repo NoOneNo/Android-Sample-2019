@@ -1,4 +1,4 @@
-package com.example.remote.view;
+package com.example.remote.view.touch;
 
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.remote.GuestAdapter;
 import com.example.remote.GuestFactory;
+import com.example.remote.event.MsgEvent;
 import com.example.remote.event.TouchEvent;
 
 public class TouchGuestFragment extends TouchFragment implements GuestAdapter {
@@ -42,6 +43,11 @@ public class TouchGuestFragment extends TouchFragment implements GuestAdapter {
         MotionEvent motionEvent = MotionEvent.obtain(time, time, event.action, x, y, 0);
         view.dispatchTouchEvent(motionEvent);
         motionEvent.recycle();
+    }
+
+    @Override
+    public void onMsg(MsgEvent event) {
+
     }
 
 

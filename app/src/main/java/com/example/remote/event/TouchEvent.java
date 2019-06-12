@@ -27,6 +27,6 @@ public class TouchEvent implements Event {
         jsonObject.addProperty("action", action);
         jsonObject.addProperty("x", x);
         jsonObject.addProperty("y", y);
-        return jsonObject.toString();
+        return jsonObject.toString() + "\n";
     }
 }

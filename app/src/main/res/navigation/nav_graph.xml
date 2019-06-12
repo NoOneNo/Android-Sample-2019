@@ -46,9 +46,9 @@
         tools:layout="@layout/frag_pic" />
     <fragment
         android:id="@+id/WSFragment"
-        android:name="com.example.remote.view.TouchHostFragment"
+        android:name="com.example.remote.view.touch.TouchHostFragment"
         android:label="frag_ws"
         tools:layout="@layout/frag_ws" />
-    <fragment android:id="@+id/WSReceiveFragment" android:name="com.example.remote.view.TouchGuestFragment"
+    <fragment android:id="@+id/WSReceiveFragment" android:name="com.example.remote.view.touch.TouchGuestFragment"
               android:label="frag_ws" tools:layout="@layout/frag_ws"/>
 </navigation>

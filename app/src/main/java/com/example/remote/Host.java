@@ -7,4 +7,5 @@ public interface Host {
     void start(Context context);
     void touch(TouchEvent event);
     void close();
+    void send(String msg);
 }

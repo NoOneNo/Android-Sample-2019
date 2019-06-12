@@ -1,4 +1,4 @@
-package com.example.remote.view;
+package com.example.remote.view.touch;
 
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +13,6 @@ import com.example.remote.event.TouchEvent;
 public class TouchHostFragment extends TouchFragment {
 
     private Host host;
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

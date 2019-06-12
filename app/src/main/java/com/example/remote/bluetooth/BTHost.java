@@ -6,6 +6,7 @@ import android.os.Message;
 
 import com.example.remote.Console;
 import com.example.remote.Host;
+import com.example.remote.event.MsgEvent;
 import com.example.remote.event.TouchEvent;
 
 public class BTHost implements Host {
@@ -32,7 +33,6 @@ public class BTHost implements Host {
                     byte[] writeBuf = (byte[]) msg.obj;
                     // construct a string from the buffer
                     String writeMessage = new String(writeBuf);
-                    log("" + writeMessage);
                     break;
                 case Constants.MESSAGE_READ:
 
@@ -74,6 +74,17 @@ public class BTHost implements Host {
     @Override
     public void close() {
         service.stop();
+    }
+
+    @Override
+    public void send(String message) {
+        MsgEvent msgEvent = new MsgEvent(message);
+        message = msgEvent.toString();
+        if (message.length() > 0) {
+            // Get the message bytes and tell the BluetoothChatService to write
+            byte[] send = message.getBytes();
+            service.write(send);
+        }
     }
 
     private void log(String msg) {

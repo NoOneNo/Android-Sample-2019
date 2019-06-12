@@ -7,6 +7,7 @@ import com.example.remote.Guest;
 import com.example.remote.GuestAdapter;
 import com.example.remote.event.Event;
 import com.example.remote.event.EventParser;
+import com.example.remote.event.MsgEvent;
 import com.example.remote.event.TouchEvent;
 import org.java_websocket.handshake.ServerHandshake;
 
@@ -53,6 +54,11 @@ public class WSGuest extends WSClient implements Guest {
                 adapter.onTouch(event);
             }
         });
+    }
+
+    @Override
+    public void onMsg(MsgEvent msg) {
+
     }
 
     private void log(String text) {

@@ -4,12 +4,14 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import com.example.remote.Console;
 import com.example.remote.Guest;
 import com.example.remote.GuestAdapter;
 import com.example.remote.event.Event;
 import com.example.remote.event.EventParser;
+import com.example.remote.event.MsgEvent;
 import com.example.remote.event.TouchEvent;
 
 public class BTGuest  implements Guest {
@@ -41,8 +43,8 @@ public class BTGuest  implements Guest {
                 case Constants.MESSAGE_READ:
                     byte[] readBuf = (byte[]) msg.obj;
                     // construct a string from the valid bytes in the buffer
+                    Log.i("debug", "b:"+msg.arg1);
                     String message = new String(readBuf, 0, msg.arg1);
-                    log("read:" + message);
                     onMessage(message);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
@@ -86,12 +88,19 @@ public class BTGuest  implements Guest {
         Event event = EventParser.parseEvent(message);
         if (event instanceof TouchEvent) {
             onTouch((TouchEvent) event);
+        } else if (event instanceof MsgEvent) {
+            onMsg((MsgEvent) event);
         }
     }
 
     @Override
     public void onTouch(TouchEvent event) {
         adapter.onTouch(event);
+    }
+
+    @Override
+    public void onMsg(MsgEvent msg) {
+        adapter.onMsg(msg);
     }
 
     public void setAdapter(GuestAdapter adapter) {

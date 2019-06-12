@@ -77,6 +77,11 @@ public class WSHost implements Host {
         });
     }
 
+    @Override
+    public void send(String msg) {
+
+    }
+
     private void broadcast(final String text) {
         mHandler.post(new Runnable() {
             @Override

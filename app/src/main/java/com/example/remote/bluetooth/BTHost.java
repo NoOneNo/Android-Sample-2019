@@ -4,12 +4,10 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
 
+import com.example.remote.AbstractHost;
 import com.example.remote.Console;
-import com.example.remote.Host;
-import com.example.remote.event.MsgEvent;
-import com.example.remote.event.TouchEvent;
 
-public class BTHost implements Host {
+public class BTHost extends AbstractHost {
 
     class MyHandler extends Handler {
         @Override
@@ -61,25 +59,12 @@ public class BTHost implements Host {
     }
 
     @Override
-    public void touch(TouchEvent event) {
-        String message = event.toString();
-        // Check that there's actually something to send
-        if (message.length() > 0) {
-            // Get the message bytes and tell the BluetoothChatService to write
-            byte[] send = message.getBytes();
-            service.write(send);
-        }
-    }
-
-    @Override
     public void close() {
         service.stop();
     }
 
     @Override
-    public void send(String message) {
-        MsgEvent msgEvent = new MsgEvent(message);
-        message = msgEvent.toString();
+    protected void send(String message) {
         if (message.length() > 0) {
             // Get the message bytes and tell the BluetoothChatService to write
             byte[] send = message.getBytes();

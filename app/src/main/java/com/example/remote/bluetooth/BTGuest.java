@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
+import com.example.remote.AbstractGuest;
 import com.example.remote.Console;
 import com.example.remote.Guest;
 import com.example.remote.GuestAdapter;
@@ -14,7 +15,7 @@ import com.example.remote.event.EventParser;
 import com.example.remote.event.MsgEvent;
 import com.example.remote.event.TouchEvent;
 
-public class BTGuest  implements Guest {
+public class BTGuest extends AbstractGuest {
 
     class MyHandler extends Handler {
         @Override
@@ -45,7 +46,7 @@ public class BTGuest  implements Guest {
                     // construct a string from the valid bytes in the buffer
                     Log.i("debug", "b:"+msg.arg1);
                     String message = new String(readBuf, 0, msg.arg1);
-                    onMessage(message);
+                    onMsg(message);
                     break;
                 case Constants.MESSAGE_DEVICE_NAME:
                     log( "Connected to " + msg.getData().getString(Constants.DEVICE_NAME));
@@ -58,18 +59,11 @@ public class BTGuest  implements Guest {
     }
 
     private BluetoothChatService service;
-    private Console console;
-    private GuestAdapter adapter;
 
     public BTGuest(Context context, Console console) {
         Handler handler = new MyHandler();
         service = new BluetoothChatService(context, handler);
         start(context);
-        this.console = console;
-    }
-
-    private void log(String msg) {
-        console.log(msg);
     }
 
     public void start(Context context) {
@@ -82,28 +76,5 @@ public class BTGuest  implements Guest {
 
     public void connect(BluetoothDevice device) {
         service.connect(device, true);
-    }
-
-    private void onMessage(String message) {
-        Event event = EventParser.parseEvent(message);
-        if (event instanceof TouchEvent) {
-            onTouch((TouchEvent) event);
-        } else if (event instanceof MsgEvent) {
-            onMsg((MsgEvent) event);
-        }
-    }
-
-    @Override
-    public void onTouch(TouchEvent event) {
-        adapter.onTouch(event);
-    }
-
-    @Override
-    public void onMsg(MsgEvent msg) {
-        adapter.onMsg(msg);
-    }
-
-    public void setAdapter(GuestAdapter adapter) {
-        this.adapter = adapter;
     }
 }

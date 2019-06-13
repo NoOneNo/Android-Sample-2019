@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothDevice;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.EditText;
+
 import com.example.R;
 import com.example.remote.bluetooth.BTGuest;
 import com.example.remote.websocket.WSGuest;
@@ -51,9 +52,10 @@ public class GuestFactory {
     private static void peerHost(String ip, int port, GuestAdapter guest, Console console) {
         WSGuest client;
         try {
-            client = new WSGuest(new URI("ws://" + ip + ":" + port), console);
+            client = new WSGuest();
             client.setAdapter(guest);
-            client.connect();
+            client.setConsole(console);
+            client.connect(new URI("ws://" + ip + ":" + port));
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

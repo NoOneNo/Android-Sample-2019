@@ -3,10 +3,11 @@ package com.example.remote.websocket;
 import android.content.Context;
 import android.os.Handler;
 import android.os.HandlerThread;
+
+import com.example.remote.AbstractHost;
 import com.example.remote.Console;
-import com.example.remote.Host;
-import com.example.remote.event.TouchEvent;
 import com.example.utils.NetworkUtils;
+
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
@@ -14,7 +15,7 @@ import org.java_websocket.server.WebSocketServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
-public class WSHost implements Host {
+public class WSHost extends AbstractHost {
 
     private Handler mHandler;
     private WebSocketServer mServer;
@@ -79,7 +80,7 @@ public class WSHost implements Host {
 
     @Override
     public void send(String msg) {
-
+        broadcast(msg);
     }
 
     private void broadcast(final String text) {
@@ -89,11 +90,6 @@ public class WSHost implements Host {
                 mServer.broadcast(text);
             }
         });
-    }
-
-    @Override
-    public void touch(TouchEvent event) {
-        broadcast(event.toString());
     }
 
     private void log(String text) {
